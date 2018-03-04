@@ -2,24 +2,49 @@ import os
 import shutil
 import time
 
-initLocation = "C:/Users/r0ck/Documents"
-dest = "C:/Users/r0ck/Desktop/dest"
+
+initLocation = "C:/Users/adi/Documents"
+dest = "C:/Users/adi/Desktop/dest"
+temp = "C:/Users/adi/Desktop/dest"
+
+def wasLastModified(fileInDocuments,fileInBackup):
+    fileInDocumentsTime = os.path.getmtime(fileInDocuments)
+    fileInBackupTime =  os.path.getatime(fileInBackup)
+    if(fileInDocumentsTime > fileInBackupTime):
+        return True
+    elif os.path.getmtime(fileInDocuments) < os.path.getatime(fileInBackup):
+        return False
 
 def copyFiles(input,sendTo):
-    src_files = os.listdir(input)
-    for file_name in src_files:
-        full_file_name = os.path.join(input, file_name)
-        if (os.path.isfile(full_file_name)):
-            shutil.copy(full_file_name, sendTo)
-        if(os.path.isdir(full_file_name)):
-            nextLocation = input + "/" + file_name
-            endingURL = sendTo + "/" + file_name
-            #create a directory with the endingURL
-            os.mkdir(endingURL)
-            print("ENDING URL: " + endingURL)
-            #add folders that should be emitted
-            if(endingURL != "C:/Users/r0ck/Desktop/dest/My Music" and endingURL != "C:/Users/r0ck/Desktop/dest/My Pictures" and endingURL != "C:/Users/r0ck/Desktop/dest/My Videos"):
-                copyFiles(nextLocation,endingURL)
+    try:
+        src_files = os.listdir(input)
+        for file_name in src_files:
+            full_file_name = os.path.join(input, file_name)
+            target = sendTo + "/" + file_name
+            #print("Checking if target exists: " + target)
+            if(not os.path.exists(target) and os.path.isfile(full_file_name)):
+                print("Copying from: " + full_file_name + " To: " + target)
+                shutil.copy(full_file_name, target)
+            if (os.path.isfile(full_file_name) and wasLastModified(full_file_name,sendTo)):
+                print("File: " + full_file_name + " needs to be updated")
+                print("Copying from: " + full_file_name + " To: " + target)
+                os.remove(target)
+                shutil.copy(full_file_name, target)
+            if(not os.path.exists(target) and os.path.isdir(full_file_name)):
+                print("Create dir at: " + target)
+                os.mkdir(target)
+            if(os.path.isdir(full_file_name)):
+                nextLocation = input + "/" + file_name
+                if(target != "D:/Cloud/OneDrive/Documents_backup/My Music" and target != "D:/Cloud/OneDrive/Documents_backup/My Pictures" and target != "D:/Cloud/OneDrive/Documents_backup/My Videos"):
+                    copyFiles(nextLocation,target)
+    except(WindowsError, IOError):
+        pass
         
 
 copyFiles(initLocation,temp)
+print("Sync done..exiting")
+time.sleep(5)
+
+
+
+
