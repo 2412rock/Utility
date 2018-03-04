@@ -4,8 +4,6 @@ import time
 
 initLocation = "C:/Users/r0ck/Documents"
 dest = "C:/Users/r0ck/Desktop/dest"
-temp = "C:/Users/r0ck/Desktop/dest"
-index = 0
 
 def copyFiles(input,sendTo):
     src_files = os.listdir(input)
@@ -19,6 +17,7 @@ def copyFiles(input,sendTo):
             #create a directory with the endingURL
             os.mkdir(endingURL)
             print("ENDING URL: " + endingURL)
+            #add folders that should be emitted
             if(endingURL != "C:/Users/r0ck/Desktop/dest/My Music" and endingURL != "C:/Users/r0ck/Desktop/dest/My Pictures" and endingURL != "C:/Users/r0ck/Desktop/dest/My Videos"):
                 copyFiles(nextLocation,endingURL)
         

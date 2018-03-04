@@ -3,18 +3,15 @@ import time
 import datetime
 import win32api
 
-#CHECK EVERY MINUTE
+
 w=win32gui
-save_file = open("User_activity.txt", "a")
-#Find a way to classify productive time
-productiveMinutes = 0
-procastinationMinutes = 0
-gamingMinutes = 0
-movieMinutes = 0
+save_file = open("User_activity.txt", "a") #used for saving the stats
+productiveSeconds = 0
+procastinationSeconds = 0
+gamingSeconds = 0
+watchingVideoSeconds = 0
 runningTime = 0
-whateverCount = 0
-checkEvery = 60
-#startTime = datetime.now()
+checkEvery = 5 
 
 def gettActiveWindow():
     #returns window Text
@@ -24,10 +21,12 @@ def periodCheck():
     global runningTime
     running = True
     #print("Started recording at %s " % (startTime))
+    #check every 10 seconds => 
+    #if app is productive => increase productiveSeconds
     while(running):
-        runningTime += 1
+        runningTime += checkEvery
         #get the first 3 chars from text
-        if runningTime % 30 == 0:
+        if runningTime % 60 == 0:
             saveStats()
         activeWindow = gettActiveWindow()
         activeWindow = activeWindow.upper()
@@ -40,7 +39,8 @@ def periodCheck():
         time.sleep(checkEvery)
     #write stats in a txt file
 def saveStats():
-     save_file.write("Date:%s | productiveMinutes: %d | procastinationMinutes: %d | gamingMinutes:%d | movieMinutes:%d\r\n" % (time.ctime(), productiveMinutes, procastinationMinutes, gamingMinutes, movieMinutes))
+    print("---Stats saved----")
+    save_file.write("Date:%s | productiveSeconds: %d | procastinationSeconds: %d | gamingSeconds:%d | movieSeconds:%d\r\n" % (time.ctime(), productiveSeconds, procastinationSeconds, gamingSeconds, watchingVideoSeconds))
 
 def movieIsPlaying(currentWindow):
     #check if Movies app is running or YT video is playing
@@ -62,6 +62,7 @@ def isBrowser(currentWindow):
 def systemIsIdle(): 
     LastInput =  win32api.GetTickCount() - win32api.GetLastInputInfo()
     #print("LastInput %s " % (LastInput))
+    #3000 <=> 1 second
     if LastInput > 540000:
         print("System is idle")
         return True
@@ -69,28 +70,28 @@ def systemIsIdle():
         return False
 
 def checkChromeTabs(currentWindow):
-    global procastinationMinutes
+    global procastinationSeconds
     if "FACEBOOK" in currentWindow:
-        procastinationMinutes += 1
-        print("Ai belit poola")
+        procastinationSeconds += checkEvery
     elif "YOUTUBE" in currentWindow:
+        #add browser exceptions here
         if "ALGORITHM" in currentWindow:
-            print("Sa zicem ca esti productiv")
+            pass
         else:
-            print("Iara freci pula")
+            watchingVideoSeconds += checkEvery
     
 def checkSoftware(currentWindow):
-    global productiveMinutes, gamingMinutes, movieMinutes
+    global productiveSeconds, gamingSeconds, movieSeconds
     if "VISUAL STUDIO" in currentWindow:
-        productiveMinutes += 1
+        productiveSeconds += checkEvery
     elif "ECLIPSE" in currentWindow:
-        productiveMinutes += 1
+        productiveSeconds += checkEvery
     elif "HEARTHSTONE" in currentWindow:
-        gamingMinutes += 1
+        gamingSeconds += checkEvery
     elif "GRAND THEFT" in currentWindow:
-        gamingMinutes += 1
+        gamingSeconds += checkEvery
     elif "MOVIES" in currentWindow:
-        movieMinutes += 1
+        watchingVideoSeconds += checkEvery
     
 periodCheck()
 
