@@ -1,3 +1,5 @@
+#2412rock
+#Checks what window the user is using every x seconds and saves the data in a txt file
 import win32gui
 import time
 import datetime

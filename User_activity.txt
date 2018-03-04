@@ -1,0 +1,4 @@
+Date:Sun Mar 04 17:57:55 2018 | productiveSeconds: 10 | procastinationSeconds: 0 | gamingSeconds:20 | movieSeconds:0
+Date:Sun Mar 04 18:01:07 2018 | productiveSeconds: 15 | procastinationSeconds: 0 | gamingSeconds:25 | movieSeconds:0
+Date:Sun Mar 04 18:02:07 2018 | productiveSeconds: 45 | procastinationSeconds: 0 | gamingSeconds:30 | movieSeconds:0
+Date:Sun Mar 04 18:03:07 2018 | productiveSeconds: 45 | procastinationSeconds: 0 | gamingSeconds:30 | movieSeconds:0

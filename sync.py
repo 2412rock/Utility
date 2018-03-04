@@ -1,12 +1,13 @@
+#2412rock
 #copies Files and Folders from one Location to another
 import os
 import shutil
 import time
 
 
-initLocation = "C:/Users/INSERT_USERNAME/Documents"
-dest = "C:/Users/INSERT_USERNAME/Desktop/dest"
-temp = "C:/Users/INSERT_USERNAME/Desktop/dest"
+initLocation = "C:/Users/adi/Documents"
+dest = "D:/Cloud/OneDrive/Documents_backup/"
+temp = "D:/Cloud/OneDrive/Documents_backup/"
 
 def wasLastModified(fileInDocuments,fileInBackup):
     fileInDocumentsTime = os.path.getmtime(fileInDocuments)
