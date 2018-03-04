@@ -1,11 +1,12 @@
+#copies Files and Folders from one Location to another
 import os
 import shutil
 import time
 
 
-initLocation = "C:/Users/adi/Documents"
-dest = "C:/Users/adi/Desktop/dest"
-temp = "C:/Users/adi/Desktop/dest"
+initLocation = "C:/Users/INSERT_USERNAME/Documents"
+dest = "C:/Users/INSERT_USERNAME/Desktop/dest"
+temp = "C:/Users/INSERT_USERNAME/Desktop/dest"
 
 def wasLastModified(fileInDocuments,fileInBackup):
     fileInDocumentsTime = os.path.getmtime(fileInDocuments)
@@ -35,6 +36,7 @@ def copyFiles(input,sendTo):
                 os.mkdir(target)
             if(os.path.isdir(full_file_name)):
                 nextLocation = input + "/" + file_name
+                #folders that you want to emit
                 if(target != "D:/Cloud/OneDrive/Documents_backup/My Music" and target != "D:/Cloud/OneDrive/Documents_backup/My Pictures" and target != "D:/Cloud/OneDrive/Documents_backup/My Videos"):
                     copyFiles(nextLocation,target)
     except(WindowsError, IOError):
